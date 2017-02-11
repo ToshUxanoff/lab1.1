@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "iostream"
 #include "TString.h"
-
+void Print(const TString& object)
+{
+	std::cout << object.str << std::endl;
+}
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -9,20 +12,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	//objects
 	TString str("Test string 1");
 	std::cout << "String 1 :";
-	str.Print();
+	Print(str);
+	std::cout << "Size(updated method) String 1 is :" << str.Size1() << std::endl;
 	TString str2(str);
 	std::cout << "String 2 :";
-	str2.Print();
+	Print(str2);
 	//str2.Print();
 	TString str3;
 	std::cout << "String 3 :";
-	str3.Print();
+	//str3.Print();
 	TString str4test("EEEredEEE");
 	str = str3;
 	std::cout << "\n";
 	std::cout << "Stroka 1 = Stroke 3 TEST operator (=):\n";
 	std::cout << "String 1 :";
-	str.Print();
+	Print(str);
 	std::cout << "Dlya udobstva sdelal kommandu system('cls'). Esli nado - uberite" << std::endl;
 	system("pause");
 	system("cls");
@@ -36,14 +40,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << str[3];
 	std::cout << "\n";
 	std::cout << "String for test :";
-	str4test.Print();
+	Print(str4test);
 	str4test.Replace('E', 'x');
-	str4test.Print();
+	Print(str4test);
 	str4test.Ltrim('x');
-	str4test.Print();
+	Print(str4test);
 	str4test.Rtrim('x');
-	str4test.Print();
+	Print(str4test);
 	str4test.Empty();
 	system("pause");
 	return 0;
 }
+
