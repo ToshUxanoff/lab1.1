@@ -22,7 +22,6 @@
 	{
 		char* strdef = "Default String";
 		str = new char[Size(strdef) + 1];
-		std::cout << "Def Constructor" << std::endl;
 		Strcpy(str, strdef);
 	}
 	//user ctor char*//
@@ -37,7 +36,6 @@
 
 	{
 		str = new char[Size(object.str) + 1];
-		std::cout << "copy ctor" << std::endl;
 		Strcpy(str, object.str);
 	}
 
@@ -45,7 +43,6 @@
 	TString::~TString()
 	{
 		delete[] str;
-		std::cout << "DESTRUCTION>>>>" << std::endl;
 	}
 	TString& TString:: operator=(const TString& object)
 	{
@@ -147,7 +144,6 @@
 	//Replace func
 	void TString::Replace(char oldSym, char newSym)
 	{
-		std::cout << "\nReplace Func. " << oldSym << " to " << newSym << ":\t";
 		for (int i = 0; i < Size(this->str); i++)
 		{
 			if (this->str[i] == oldSym)
@@ -177,7 +173,6 @@
 		bool find = false;
 		int a = 0;
 		char * str_new = new char[Size(this->str)];
-		std::cout << "\nLtrim func: ";
 		int i = 0;
 
 
@@ -205,7 +200,6 @@
 	}
 	void TString::Rtrim(char symbol)
 	{
-		std::cout << "\nRtrim func: ";
 		int size = Size(this->str);
 		int a = 0;
 		for (int i = 0; i < size + 1; i++)
@@ -264,7 +258,6 @@
 		char* start = d;
 		while (*d++ = *s++)
 		{
-
 		}
 		return start;
 	}
