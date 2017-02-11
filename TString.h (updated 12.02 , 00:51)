@@ -1,15 +1,12 @@
-
 #include "iostream"
 class TString
 {
 public:
 	char*str;
 	//Method SIZE//
-	int Size(char* str);
+	int Size1();
 	
 	char* Strcpy(char*d, const char* s);
-	// Method PRINT//
-	void Print();
 	
 	//default ctor//
 	TString();
