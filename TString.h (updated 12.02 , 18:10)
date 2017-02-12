@@ -111,9 +111,10 @@ public:
 	/// </example>
 	/// <param name="symbol"> Значение символов, которе отрезаем </param> 
 	void LTrim(char symbol);
-	friend TString operator+(const TString & a, const TString & b);	
-	friend bool operator!=(const TString & a, const TString & b);
-	friend std::ostream & operator<<(std::ostream &out, const TString &str);
-	friend bool operator>(const TString & a, const TString & b);
-	friend void Print(const TString&object);
+	friend  std::ostream & operator<<(std::ostream &, const TString &);
 };
+ TString operator+(const TString & a, const TString & b);
+ bool operator!=(const TString & a, const TString & b);
+ bool operator>(const TString & a, const TString & b);
+ std::ostream & operator<<(std::ostream& out, const TString &str);
+
