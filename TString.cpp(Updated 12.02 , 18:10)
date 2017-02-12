@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "TString.h"
+
 int Strlen(const char* str) 
 {
 	int len = 0;
@@ -93,21 +94,11 @@ char* Strcpy(char*d, const char* s)
 	}
 	TString operator+(const TString & a, const TString & b)
 	{
-		int Size_A = Strlen(a.Data);
-		int Size_B = Strlen(b.Data);
-		char* str;
-		str = new char[Size_A + Size_B];
-		for (int i = 0; i < Size_A; i++)
-		{
-			str[i] = a.Data[i];
-		}
-		for (int j = 0; j < Size_B; j++)
-		{
-			str[Size_A + j] = b.Data[j];
-		}
-		str[Size_A + Size_B] = '\0';
+		TString str(a);
+		str += b;
 		return str;
 	}
+
 	bool TString::operator ==(const TString &object) const
 	{
 		int size1 = Size();
@@ -130,26 +121,20 @@ char* Strcpy(char*d, const char* s)
 			return false;
 		}
 	}
-
 	bool operator!=(const TString & a, const TString & b)
 	{
 		int x = 0;
-		if (a.Data[0] == b.Data[0])
+		int size1 = a.Size();
+		int size2 = b.Size();
+		if (size1 != size2)
 		{
-			return false;
+			return true;
 		}
-		else
+		for (int i = 0; a[i] == b[i]; i++)
 		{
-			for (int i = 0; i < Strlen(a.Data); i++)
-			{
-				if (a.Data[i] == b.Data[i])
-				{
-					x++;
-				}
-			}
-
+			x++;
 		}
-		if (x == Strlen(a.Data))
+		if ( x == size1)
 		{
 			return false;
 		}
@@ -164,7 +149,9 @@ char* Strcpy(char*d, const char* s)
 	}
 	bool operator>(const TString & a, const TString & b)
 	{
-		return(Strlen(a.Data) > Strlen(b.Data) ? true : false);
+		TString str1(a);
+		TString str2(b);
+		return(str1.Size() > str2.Size() ? true : false);
 	}
 	char TString::operator[](size_t index) const
 	{
