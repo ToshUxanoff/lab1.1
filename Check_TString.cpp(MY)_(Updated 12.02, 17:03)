@@ -1,0 +1,68 @@
+#include "stdafx.h"
+#include "iostream"
+#include "TString.h"
+
+ void Print(const TString& object)
+{
+	std::cout << object.Data <<std::endl;
+}
+ int _tmain(int argc, _TCHAR* argv[])
+ {
+	 //objects
+	 TString str0;
+	 TString str("STR1 test");
+	 std::cout << "String 1 :";
+	 Print(str);
+	 std::cout << "Size(updated method) String 1 is :" << str.Size() << std::endl;
+	 TString str2("STR2");
+	 std::cout << "String 2 :";
+	 Print(str2);
+	 //str2.Print();
+	 TString str3("STR3");
+	 std::cout << "String 3 :";
+	 Print(str3);
+	 TString str4test("EEEredEEE");
+	 str = str3;
+	 str = str2;
+	 str0 = str;
+	 Print(str0);
+	 std::cout << "\n";
+	 std::cout << "Stroka 1 = Stroke 3 TEST operator (=):\n";
+	 std::cout << "String 1:";
+	 Print(str);
+	 std::cout << "\nTest operator[] for String 1:";
+	 //str[1] = 'R';
+	 Print(str);
+	 std::cout << "\nStroka 1 + Stroka 2 TEST operator (+):\n";
+	 str += str2;
+	 std::cout << "\nStroka 1 + Stroka 3 TEST operator (+):\n";
+	 str += str3;
+	 str = str + str;
+	 Print(str);
+	 std::cout << "\n";
+	 std::cout << "Dlya udobstva sdelal kommandu system('cls'). Esli nado - uberite" << std::endl;
+	 system("pause");
+	 system("cls");
+	 std::cout << "TEST HERE: \n";
+	 std::cout << "Find 'ult' in String 3. Function returns : ";
+	 std::cout << str3.Find("ult") << '\n';
+	 std::cout << "Ravny li stroki (1 i 3)?\t" << (str == str3) << std::endl;
+	 std::cout << "Esli stroki (1 i 2)(DefaultString i TestString1) ravny - return 0 : \t" << (str != str2) << std::endl;
+	 std::cout << "Stroka 2 < Stroki 3(teststring1 < defaultstring?)\t" << (str2 < str3) << std::endl;
+	 std::cout << "Stroka 2 > Stroki 3(teststring1 > defaultstring?)\t" << (str2 > str3) << std::endl;
+	 std::cout << "Symbol number 3 in String1:";
+	 std::cout << str[3];
+	 std::cout << "\n";
+	 std::cout << "String for test :";
+	 Print(str4test);
+	 str4test.Replace('E', 'x');
+	 Print(str4test);
+	 str4test.LTrim('x');
+	 Print(str4test);
+	 str4test.RTrim('x');
+	 Print(str4test);
+	 std::cout << str0.Empty();
+	 system("pause");
+	 return 0;
+ }
+
