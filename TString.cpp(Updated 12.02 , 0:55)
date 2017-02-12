@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "TString.h"
-
-int Size(char* str)
+int Strlen(const char* str) 
 {
 	int len = 0;
 	for (int i = 0; str[i] != 0; i++)
@@ -11,11 +10,20 @@ int Size(char* str)
 
 	return len;
 }
-	//Method SIZE1//
-	int TString::Size1()
+char* Strcpy(char*d, const char* s)
+{
+	char* start = d;
+	while (*d++ = *s++)
+	{
+
+	}
+	return start;
+}
+	//Method SIZE//
+	size_t TString::Size() const
 	{
 		int len = 0;
-		for (int i = 0; this->str[i] != 0; i++)
+		for (int i = 0; this->Data[i] != 0; i++)
 		{
 			len++;
 		}
@@ -27,39 +35,36 @@ int Size(char* str)
 	TString::TString()
 	{
 		char* strdef = "Default String";
-		str = new char[Size(strdef) + 1];
-		std::cout << "Def Constructor" << std::endl;
-		Strcpy(str, strdef);
+		Data = new char[Strlen(strdef) + 1];
+		Strcpy(Data, strdef);
 	}
 	//user ctor char*//
-	TString::TString(char * str1)
+	TString::TString(const char * str1)
 	{
-		str = new char[Size(str1) + 1];
-		Strcpy(str, str1);
+		Data = new char[Strlen(str1) + 1];
+		Strcpy(Data, str1);
 
 	}
 	//copy ctor//
 	TString::TString(const TString& object)
 
 	{
-		str = new char[Size(object.str) + 1];
-		std::cout << "copy ctor" << std::endl;
-		Strcpy(str, object.str);
+		Data = new char[Strlen(object.Data) + 1];
+		Strcpy(Data, object.Data);
 	}
 
 	//dtor//
 	TString::~TString()
 	{
-		delete[] str;
-		std::cout << "DESTRUCTION>>>>" << std::endl;
+		delete[] Data;
 	}
 	TString& TString:: operator=(const TString& object)
 	{
 		if (this != &object)
 		{
-			delete[]str;
-			str = new char[Size(object.str) + 1];
-			strcpy(str, object.str);
+			delete[]Data;
+			Data = new char[Strlen(object.Data) + 1];
+			strcpy(Data, object.Data);
 		}
 		else
 		{
@@ -69,57 +74,74 @@ int Size(char* str)
 	}
 	TString& TString::operator+=(const TString& object)
 	{
-		int size = Size(this->str);
-		char * str_t = new char[Size(this->str)];
+		int size = Size();
+		char * str_t = new char[Size()];
 
-		for (int i = 0; i < Size(str_t); i++)
+		for (int i = 0; i < Strlen(str_t); i++)
 		{
-			str_t[i] = this->str[i];
+			str_t[i] = this->Data[i];
 		}
 
-		delete this->str;
-		this->str = new char[Size(str_t) + Size(object.str)];
-		this->str[Size(str_t) + Size(object.str)] = '\0';
-		for (int i = 0; i < Size(str_t); i++)
+		delete this->Data;
+		this->Data = new char[Strlen(str_t) + Strlen(object.Data)];
+		this->Data[Strlen(str_t) + Strlen(object.Data)] = '\0';
+		for (int i = 0; i < Strlen(str_t); i++)
 		{
-			this->str[i] = str_t[i];
+			this->Data[i] = str_t[i];
 		}
-		for (int j = 0; j < Size(object.str); j++)
+		for (int j = 0; j < Strlen(object.Data); j++)
 		{
-			this->str[size + j] = object.str[j];
+			this->Data[size + j] = object.Data[j];
 		}
 		return *this;
 	}
-	bool TString::operator ==(const TString& object)
+	TString operator+(const TString & a, const TString & b)
 	{
-		for (int i = 0; i < Size(this->str); i++)
+		int Size_A = Strlen(a.Data);
+		int Size_B = Strlen(b.Data);
+		char* str;
+		str = new char[Size_A + Size_B];
+		for (int i = 0; i < Size_A; i++)
 		{
-			if (this->str[i] != object.str[i])
+			str[i] = a.Data[i];
+		}
+		for (int j = 0; j < Size_B; j++)
+		{
+			str[Size_A + j] = b.Data[j];
+		}
+		str[Size_A + Size_B] = '\0';
+		return str;
+	}
+	bool TString::operator ==(const TString& object) const
+	{
+		for (int i = 0; i < Size(); i++)
+		{
+			if (this->Data[i] != object.Data[i])
 			{
 				return false;
 			}
 		}
 		return true;
 	}
-	bool TString::operator != (const TString & object)
+	bool operator!=(const TString & a, const TString & b)
 	{
-		int a = 0;
-		if (this->str[0] == object.str[0])
+		int x = 0;
+		if (a.Data[0] == b.Data[0])
 		{
 			return false;
 		}
 		else
 		{
-			for (int i = 0; i < Size(this->str); i++)
+			for (int i = 0; i < Strlen(a.Data); i++)
 			{
-				if (this->str[i] == object.str[i])
+				if (a.Data[i] == b.Data[i])
 				{
-					a++;
+					x++;
 				}
 			}
 
 		}
-		if (a == Size(this->str))
+		if (x == Strlen(a.Data))
 		{
 			return false;
 		}
@@ -128,44 +150,56 @@ int Size(char* str)
 			return true;
 		}
 	}
-	bool TString::operator < (const TString& object)
+	bool TString::operator < (const TString& object) const
 	{
-		return(Size(this->str) < Size(object.str) ? true : false);
+		return(Size() < Strlen(object.Data) ? true : false);
 	}
-	bool TString::operator > (const TString& object)
+	bool operator>(const TString & a, const TString & b)
 	{
-		return(Size(this->str) > Size(object.str) ? true : false);
+		return(Strlen(a.Data) > Strlen(b.Data) ? true : false);
 	}
-	char TString::operator[](size_t index)
+	char TString::operator[](size_t index) const
 	{
-		if (index > Size(this->str) || index == 0)
+		if (index > Size())
 		{
 			std::cout << "Error";
 			return 0;
 		}
 		else
 		{
-			std::cout << "\n You want to found " << index << " symbol in this string: " << this->str << "\n Founded Symbol: ";
-			return this->str[index - 1];
+			std::cout << "\n You want to found " << index << " symbol in this string: " << this->Data << "\n Founded Symbol: ";
+			return this->Data[index];
 		}
 
+	}
+	char& TString::operator[](size_t index)
+	{
+		if (index > Size())
+		{
+			std::cout << "Error";
+			
+		}
+		else
+		{
+			return this->Data[index];
+		}
 	}
 	//Replace func
 	void TString::Replace(char oldSym, char newSym)
 	{
 		std::cout << "\nReplace Func. " << oldSym << " to " << newSym << ":\t";
-		for (int i = 0; i < Size(this->str); i++)
+		for (int i = 0; i < Size(); i++)
 		{
-			if (this->str[i] == oldSym)
+			if (this->Data[i] == oldSym)
 			{
 
-				str[i] = newSym;
+				Data[i] = newSym;
 			}
 		}
 	}
-	bool TString::Empty()
+	bool TString::Empty() const
 	{
-			if (this->str != "")
+			if (this->Data != "")
 			{
 				std::cout << "Not empty" << std::endl;
 				return false;
@@ -177,20 +211,20 @@ int Size(char* str)
 			}
 	}
 	//TRIMS
-	void TString::Ltrim(char symbol)
+	void TString::LTrim(char symbol)
 	{
 
 		bool find = false;
 		int a = 0;
-		char * str_new = new char[Size(this->str)];
+		char * str_new = new char[Size()];
 		std::cout << "\nLtrim func: ";
 		int i = 0;
 
 
 
-		for (int i = 0; i < Size(this->str); i++)
+		for (int i = 0; i < Size(); i++)
 		{
-			if (this->str[i] == symbol)
+			if (this->Data[i] == symbol)
 			{
 				a++;
 			}
@@ -201,26 +235,26 @@ int Size(char* str)
 			}
 		}
 		int c = a;
-		for (int i = 0; i < Size(this->str) - c; a++, i++)
+		for (int i = 0; i < Size() - c; a++, i++)
 		{
-			str_new[i] = this->str[a];
+			str_new[i] = this->Data[a];
 		}
 
-		str_new[Size(this->str) - c] = '\0';
-		this->str = str_new;
+		str_new[Size() - c] = '\0';
+		this->Data = str_new;
 	}
-	void TString::Rtrim(char symbol)
+	void TString::RTrim(char symbol)
 	{
 		std::cout << "\nRtrim func: ";
-		int size = Size(this->str);
+		int size = Size();
 		int a = 0;
 		for (int i = 0; i < size + 1; i++)
 		{
 			int j = size - i;
-			if (this->str[j] != symbol)
+			if (this->Data[j] != symbol)
 			{
 				a++;
-				str[j + 1] = '\0';
+				Data[j + 1] = '\0';
 				if (a == 2)
 				{
 					break;
@@ -230,20 +264,20 @@ int Size(char* str)
 		}
 	}
 	//Find func
-	int TString::Find(const TString& object)
+	size_t TString::Find(const TString& object) const
 	{
-		int ret = 0;;
+		int ret = 0;
 		int check = 0;
-		for (int i = 0; i < Size(this->str); i++)
+		for (int i = 0; i < Size(); i++)
 		{
-			if (this->str[i] == object.str[0])
+			if (this->Data[i] == object.Data[0])
 			{
 				check++;
 				ret = i;
-				for (int j = 1; j < Size(object.str); j++)
+				for (int j = 1; j < Strlen(object.Data); j++)
 				{
 					i++;
-					if (this->str[i] == object.str[j])
+					if (this->Data[i] == object.Data[j])
 					{
 						check++;
 					}
@@ -255,7 +289,7 @@ int Size(char* str)
 				}
 			}
 		}
-		if (check == Size(object.str))
+		if (check == Strlen(object.Data))
 		{
 			return ret;
 		}
@@ -265,18 +299,10 @@ int Size(char* str)
 		}
 
 	}
-	char* TString::Strcpy(char*d, const char* s)
-	{
-		char* start = d;
-		while (*d++ = *s++)
-		{
-
-		}
-		return start;
-	}
+	
 	std::ostream & operator<<(std::ostream &out, const TString & object)
 	{
-		out << object.str;
+		out << object.Data;
 		return out;
 	}
 
