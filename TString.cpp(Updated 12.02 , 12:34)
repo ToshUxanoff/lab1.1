@@ -10,6 +10,7 @@ int Strlen(const char* str)
 
 	return len;
 }
+
 char* Strcpy(char*d, const char* s)
 {
 	char* start = d;
@@ -33,10 +34,8 @@ char* Strcpy(char*d, const char* s)
 
 	//default ctor//
 	TString::TString()
-	{
-		char* strdef = "Default String";
-		Data = new char[Strlen(strdef) + 1];
-		Strcpy(Data, strdef);
+	{	
+		Data = "";
 	}
 	//user ctor char*//
 	TString::TString(const char * str1)
@@ -52,47 +51,44 @@ char* Strcpy(char*d, const char* s)
 		Data = new char[Strlen(object.Data) + 1];
 		Strcpy(Data, object.Data);
 	}
-
 	//dtor//
 	TString::~TString()
 	{
-		delete[] Data;
+		if (Data != "")
+		{
+			delete[] Data;
+		}
 	}
 	TString& TString:: operator=(const TString& object)
 	{
+		if (Data == "")
+		{
+			Data = new char[Strlen(object.Data) + 1];
+			strcpy(Data, object.Data);
+		}
 		if (this != &object)
 		{
 			delete[]Data;
 			Data = new char[Strlen(object.Data) + 1];
 			strcpy(Data, object.Data);
 		}
-		else
-		{
-			std::cout << "Self Assignment" << std::endl;;
-		}
 		return *this;
 	}
-	TString& TString::operator+=(const TString& object)
+	TString& TString::operator+=(const TString &object)
 	{
-		int size = Size();
-		char * str_t = new char[Size()];
-
-		for (int i = 0; i < Strlen(str_t); i++)
+		int len1 = Size();
+		int len2 = object.Size();
+		char *str = new char[len1 + len2 + 1];
+		for (int i = 0; i < len1; i++)
 		{
-			str_t[i] = this->Data[i];
-		}
-
-		delete this->Data;
-		this->Data = new char[Strlen(str_t) + Strlen(object.Data)];
-		this->Data[Strlen(str_t) + Strlen(object.Data)] = '\0';
-		for (int i = 0; i < Strlen(str_t); i++)
+			str[i] = Data[i];
+		}	
+		for (int i = 0; i <= len2; i++)
 		{
-			this->Data[i] = str_t[i];
-		}
-		for (int j = 0; j < Strlen(object.Data); j++)
-		{
-			this->Data[size + j] = object.Data[j];
-		}
+			str[len1 + i] = object.Data[i];
+		}		
+		delete[] Data;
+		Data = str;
 		return *this;
 	}
 	TString operator+(const TString & a, const TString & b)
@@ -112,17 +108,29 @@ char* Strcpy(char*d, const char* s)
 		str[Size_A + Size_B] = '\0';
 		return str;
 	}
-	bool TString::operator ==(const TString& object) const
+	bool TString::operator ==(const TString &object) const
 	{
-		for (int i = 0; i < Size(); i++)
+		int size1 = Size();
+		int size2 = object.Size();
+		if (size1 != size2)
 		{
-			if (this->Data[i] != object.Data[i])
-			{
-				return false;
-			}
+			return false;
 		}
-		return true;
+		int i = 0;
+		while (Data[i] == object.Data[i] && Data[i] != '\0' && object.Data[i] != '\0')
+		{
+			i++;
+		}
+		if (i == size1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
+
 	bool operator!=(const TString & a, const TString & b)
 	{
 		int x = 0;
@@ -187,7 +195,6 @@ char* Strcpy(char*d, const char* s)
 	//Replace func
 	void TString::Replace(char oldSym, char newSym)
 	{
-		std::cout << "\nReplace Func. " << oldSym << " to " << newSym << ":\t";
 		for (int i = 0; i < Size(); i++)
 		{
 			if (this->Data[i] == oldSym)
@@ -199,16 +206,14 @@ char* Strcpy(char*d, const char* s)
 	}
 	bool TString::Empty() const
 	{
-			if (this->Data != "")
-			{
-				std::cout << "Not empty" << std::endl;
-				return false;
-			}
-			else
-			{
-				std::cout << "Empty" << std::endl;
-				return true;
-			}
+		if (Strlen(Data) == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	//TRIMS
 	void TString::LTrim(char symbol)
@@ -217,7 +222,6 @@ char* Strcpy(char*d, const char* s)
 		bool find = false;
 		int a = 0;
 		char * str_new = new char[Size()];
-		std::cout << "\nLtrim func: ";
 		int i = 0;
 
 
@@ -245,20 +249,17 @@ char* Strcpy(char*d, const char* s)
 	}
 	void TString::RTrim(char symbol)
 	{
-		std::cout << "\nRtrim func: ";
 		int size = Size();
 		int a = 0;
-		for (int i = 0; i < size + 1; i++)
+		int j = 0;
+		for (int i = 0; i < size; i++)
 		{
-			int j = size - i;
+			 j = size - i;
 			if (this->Data[j] != symbol)
 			{
 				a++;
-				Data[j + 1] = '\0';
-				if (a == 2)
-				{
-					break;
-				}
+				Data[j-1] = '\0';
+				break;
 			}
 
 		}
@@ -305,4 +306,3 @@ char* Strcpy(char*d, const char* s)
 		out << object.Data;
 		return out;
 	}
-
