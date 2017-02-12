@@ -1,9 +1,9 @@
 #include <iostream>
 class TString
 {
-	
-public:
 	char * Data;
+public:
+	
 	/// <summary> Деструктор </summary> 
 	~TString();
 
@@ -111,30 +111,9 @@ public:
 	/// </example>
 	/// <param name="symbol"> Значение символов, которе отрезаем </param> 
 	void LTrim(char symbol);
+	friend TString operator+(const TString & a, const TString & b);	
+	friend bool operator!=(const TString & a, const TString & b);
+	friend std::ostream & operator<<(std::ostream &out, const TString &str);
+	friend bool operator>(const TString & a, const TString & b);
+	friend void Print(const TString&object);
 };
-
-	/// <summary> Оператор +</summary>  
-	/// <example> 
-	/// <code>
-	/// TString a = "Hello";
-	/// TString b = "World";
-	/// TString c = a + b; // c равна "HelloWorld"
-	/// </code>
-	/// </example>
-	/// <returns>Возвращаем строку равную a + b</returns>  
-	TString operator+(const TString & a, const TString & b);
-
-
-	/// <summary> Оператор !=</summary>
-	bool operator!=(const TString & a, const TString & b);
-
-
-	/// <summary> Оператор &gt;</summary>
-	bool operator>(const TString & a, const TString & b);
-
-
-	/// <summary> Оператор вывода </summary>  
-	/// <param name="out">Поток куда выводим строку </param>  
-	/// <param name="str">Строка, которую выводим </param>
-	/// <returns>Возвращаем ссылку на поток</returns> 
-	std::ostream & operator<<(std::ostream &out, const TString &str);
