@@ -4,6 +4,10 @@
 int Strlen(const char* str) 
 {
 	int len = 0;
+	if (str == nullptr)
+	{
+		return 0;
+	}
 	for (int i = 0; str[i] != 0; i++)
 	{
 		len++;
@@ -25,6 +29,10 @@ char* Strcpy(char*d, const char* s)
 	size_t TString::Size() const
 	{
 		int len = 0;
+		if (Data == nullptr)
+		{
+			return 0;
+		}
 		for (int i = 0; this->Data[i] != 0; i++)
 		{
 			len++;
@@ -36,7 +44,7 @@ char* Strcpy(char*d, const char* s)
 	//default ctor//
 	TString::TString()
 	{	
-		Data = "";
+		Data = nullptr;
 	}
 	//user ctor char*//
 	TString::TString(const char * str1)
@@ -62,16 +70,16 @@ char* Strcpy(char*d, const char* s)
 	}
 	TString& TString:: operator=(const TString& object)
 	{
-		if (Data == "")
+		if (Data == nullptr)
 		{
-			Data = new char[Strlen(object.Data) + 1];
+			Data = new char[object.Size() + 1];
 			strcpy(Data, object.Data);
 		}
 		if (this != &object)
 		{
 			delete[]Data;
-			Data = new char[Strlen(object.Data) + 1];
-			strcpy(Data, object.Data);
+			Data = new char[object.Size() + 1];
+			Strcpy(Data, object.Data);
 		}
 		return *this;
 	}
@@ -107,6 +115,10 @@ char* Strcpy(char*d, const char* s)
 		{
 			return false;
 		}
+		else if (size1 == 0 && size2 == 0)
+		{
+			return true;
+		}
 		int i = 0;
 		while (Data[i] == object.Data[i] && Data[i] != '\0' && object.Data[i] != '\0')
 		{
@@ -123,18 +135,7 @@ char* Strcpy(char*d, const char* s)
 	}
 	bool operator!=(const TString & a, const TString & b)
 	{
-		int x = 0;
-		int size1 = a.Size();
-		int size2 = b.Size();
-		if (size1 != size2)
-		{
-			return true;
-		}
-		for (int i = 0; a[i] == b[i]; i++)
-		{
-			x++;
-		}
-		if ( x == size1)
+		if (a == b)
 		{
 			return false;
 		}
@@ -145,7 +146,7 @@ char* Strcpy(char*d, const char* s)
 	}
 	bool TString::operator < (const TString& object) const
 	{
-		return(Size() < Strlen(object.Data) ? true : false);
+		return(Size() < object.Size() ? true : false);
 	}
 	bool operator>(const TString & a, const TString & b)
 	{
@@ -193,7 +194,7 @@ char* Strcpy(char*d, const char* s)
 	}
 	bool TString::Empty() const
 	{
-		if (Strlen(Data) == 0)
+		if (Data == nullptr)
 		{
 			return true;
 		}
